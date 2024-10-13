@@ -9,10 +9,10 @@ class UseCaseOne extends StatefulWidget {
   final UseCases useCase;
 
   @override
-  State<UseCaseOne> createState() => _UseCaseOneState();
+  State<UseCaseOne> createState() => _UseCaseState();
 }
 
-class _UseCaseOneState extends State<UseCaseOne> {
+class _UseCaseState extends State<UseCaseOne> {
 
   late ZoomableController controller;
 

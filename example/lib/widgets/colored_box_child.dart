@@ -14,35 +14,22 @@ class ColoredBoxChild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: GestureDetector(
-            onTap: onTap,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: color,
-              ),
-              child: Center(
-                child: Text(
-                  text,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
+    return GestureDetector(
+      onTap: onTap,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: color,
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
             ),
           ),
         ),
-        Center(
-          child: Container(
-            height: 12,
-            width: 12,
-            color: Colors.pink,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

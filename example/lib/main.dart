@@ -1,4 +1,6 @@
+import 'package:exampleZoomable/use_cases/use_case_four.dart';
 import 'package:exampleZoomable/use_cases/use_case_one.dart';
+import 'package:exampleZoomable/use_cases/use_case_three.dart';
 import 'package:exampleZoomable/use_cases/use_case_two.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +26,9 @@ class MyApp extends StatelessWidget {
 
 enum UseCases {
   one('One'),
-  two('Two');
+  two('Two'),
+  three('Three'),
+  four('Four');
 
   const UseCases(this.title);
 
@@ -68,6 +72,10 @@ class _ExampleState extends State<Example> {
                         return UseCaseOne(useCase: useCase);
                       case UseCases.two:
                         return UseCaseTwo(useCase: useCase);
+                      case UseCases.three:
+                        return UseCaseThree(useCase: useCase);
+                      case UseCases.four:
+                        return UseCaseFour(useCase: useCase);
                     }
                   },
                 ));

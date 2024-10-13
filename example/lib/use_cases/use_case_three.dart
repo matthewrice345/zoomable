@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zoomable/zoomable.dart';
 
-class UseCaseTwo extends StatefulWidget {
-  const UseCaseTwo({super.key, required this.useCase});
+class UseCaseThree extends StatefulWidget {
+  const UseCaseThree({super.key, required this.useCase});
   final UseCases useCase;
 
   @override
-  State<UseCaseTwo> createState() => _UseCaseState();
+  State<UseCaseThree> createState() => _UseCaseState();
 }
 
-class _UseCaseState extends State<UseCaseTwo> {
+class _UseCaseState extends State<UseCaseThree> {
 
   late ZoomableController controller;
 
@@ -21,9 +21,7 @@ class _UseCaseState extends State<UseCaseTwo> {
     super.initState();
     controller = ZoomableController(zoomables: [
       Zoomable(id: 'red', key: GlobalKey()),
-      Zoomable(id: 'cyan', key: GlobalKey()),
       Zoomable(id: 'green', key: GlobalKey()),
-      Zoomable(id: 'purple', key: GlobalKey()),
       Zoomable(id: 'blue', key: GlobalKey()),
       Zoomable(id: 'orange', key: GlobalKey()),
     ]);
@@ -69,18 +67,6 @@ class _UseCaseState extends State<UseCaseTwo> {
                     const Gap(24),
                     Expanded(
                       child: ZoomableBox(
-                        id: 'cyan',
-                        controller: controller,
-                        child: ColoredBoxChild(
-                          text: 'Cyan',
-                          color: Colors.cyan,
-                          onTap: () => controller.zoomTo('cyan'),
-                        ),
-                      ),
-                    ),
-                    const Gap(24),
-                    Expanded(
-                      child: ZoomableBox(
                         id: 'green',
                         controller: controller,
                         child: ColoredBoxChild(
@@ -91,18 +77,6 @@ class _UseCaseState extends State<UseCaseTwo> {
                       ),
                     ),
                   ],
-                ),
-              ),
-              const Gap(24),
-              Expanded(
-                child: ZoomableBox(
-                  id: 'purple',
-                  controller: controller,
-                  child: ColoredBoxChild(
-                    text: 'Purple',
-                    color: Colors.purple,
-                    onTap: () => controller.zoomTo('purple'),
-                  ),
                 ),
               ),
               const Gap(24),

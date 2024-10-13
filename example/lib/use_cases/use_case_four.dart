@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zoomable/zoomable.dart';
 
-class UseCaseTwo extends StatefulWidget {
-  const UseCaseTwo({super.key, required this.useCase});
+class UseCaseFour extends StatefulWidget {
+  const UseCaseFour({super.key, required this.useCase});
   final UseCases useCase;
 
   @override
-  State<UseCaseTwo> createState() => _UseCaseState();
+  State<UseCaseFour> createState() => _UseCaseState();
 }
 
-class _UseCaseState extends State<UseCaseTwo> {
+class _UseCaseState extends State<UseCaseFour> {
 
   late ZoomableController controller;
 
@@ -21,11 +21,8 @@ class _UseCaseState extends State<UseCaseTwo> {
     super.initState();
     controller = ZoomableController(zoomables: [
       Zoomable(id: 'red', key: GlobalKey()),
-      Zoomable(id: 'cyan', key: GlobalKey()),
       Zoomable(id: 'green', key: GlobalKey()),
-      Zoomable(id: 'purple', key: GlobalKey()),
       Zoomable(id: 'blue', key: GlobalKey()),
-      Zoomable(id: 'orange', key: GlobalKey()),
     ]);
   }
 
@@ -53,55 +50,13 @@ class _UseCaseState extends State<UseCaseTwo> {
           return Row(
             children: [
               Expanded(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'red',
-                        controller: controller,
-                        child: ColoredBoxChild(
-                          text: 'Red',
-                          color: Colors.red,
-                          onTap: () => controller.zoomTo('red'),
-                        ),
-                      ),
-                    ),
-                    const Gap(24),
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'cyan',
-                        controller: controller,
-                        child: ColoredBoxChild(
-                          text: 'Cyan',
-                          color: Colors.cyan,
-                          onTap: () => controller.zoomTo('cyan'),
-                        ),
-                      ),
-                    ),
-                    const Gap(24),
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'green',
-                        controller: controller,
-                        child: ColoredBoxChild(
-                          text: 'Green',
-                          color: Colors.green,
-                          onTap: () => controller.zoomTo('green'),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Gap(24),
-              Expanded(
                 child: ZoomableBox(
-                  id: 'purple',
+                  id: 'red',
                   controller: controller,
                   child: ColoredBoxChild(
-                    text: 'Purple',
-                    color: Colors.purple,
-                    onTap: () => controller.zoomTo('purple'),
+                    text: 'Red',
+                    color: Colors.red,
+                    onTap: () => controller.zoomTo('red'),
                   ),
                 ),
               ),
@@ -123,12 +78,12 @@ class _UseCaseState extends State<UseCaseTwo> {
                     const Gap(24),
                     Expanded(
                       child: ZoomableBox(
-                        id: 'orange',
+                        id: 'green',
                         controller: controller,
                         child: ColoredBoxChild(
-                          text: 'Orange',
-                          color: Colors.orange,
-                          onTap: () => controller.zoomTo('orange'),
+                          text: 'Green',
+                          color: Colors.green,
+                          onTap: () => controller.zoomTo('green'),
                         ),
                       ),
                     ),
