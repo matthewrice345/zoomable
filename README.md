@@ -1,6 +1,6 @@
 ## Features
 
-A [ZoomableWidget] which allows specified children [ZoomableBox] to be zoomed in and out of. 
+A [ZoomableWidget](lib/src/widgets/zoomable_widget.dart) which allows specified children [ZoomableBox](lib/src/widgets/zoomable_box.dart) to be zoomed in and out of. 
 Creates a fun zoomable experience. Just a fun project to create.
 
 ## Getting started
@@ -15,7 +15,12 @@ dependencies:
 
 ## Usage
 
-Run the example projects for some examples of how to use the package.
+Import the package in your dart file
+```dart
+import 'package:zoomable/zoomable.dart';
+```
+
+Check out the example project for examples of how to use the package.
 
 ## Additional information
 
