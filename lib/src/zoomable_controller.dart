@@ -27,6 +27,7 @@ class ZoomableController extends ChangeNotifier {
   ZoomableId? _currentFocus;
 
   set currentFocus(ZoomableId? id) {
+    if (_currentFocus == id) return;
     _currentFocus = id;
     notifyListeners();
   }
@@ -35,6 +36,7 @@ class ZoomableController extends ChangeNotifier {
   bool _isAnimating = false;
 
   set isAnimating(bool value) {
+    if(_isAnimating == value) return;
     _isAnimating = value;
     notifyListeners();
   }
@@ -54,19 +56,17 @@ class ZoomableController extends ChangeNotifier {
   void zoomTo(ZoomableId id) {
     final zoomable = zoomables[id];
     if (zoomable != null) {
-      final parentState = zoomableKey.currentState;
       final offset = _zoomableOffsets[id];
       if (offset != null) {
         final boxSize = ZoomableUtils.getWidgetSize(zoomable.key);
-        parentState?.onZoomTo(id, offset, boxSize);
+        zoomableKey.currentState?.onZoomTo(id, offset, boxSize);
         notifyListeners();
       }
     }
   }
 
   void zoomOut() {
-    final parentState = zoomableKey.currentState;
-    parentState?.onZoomOut();
+    zoomableKey.currentState?.onZoomOut();
     notifyListeners();
   }
 }
