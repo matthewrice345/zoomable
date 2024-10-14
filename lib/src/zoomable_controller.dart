@@ -15,6 +15,7 @@ class ZoomableController extends ChangeNotifier {
     double scaleTo = 1.5,
     double scaleToPercentage = 0.75,
     ZoomableScaleType scaleType = ZoomableScaleType.value,
+    bool allowScaleDown = true,
   })  : _zoomables = Map.fromEntries(
           zoomables.map(
             (zoomable) => MapEntry(zoomable.id, zoomable),
@@ -22,7 +23,8 @@ class ZoomableController extends ChangeNotifier {
         ),
         _scaleTo = scaleTo,
         _scaleToPercentage = scaleToPercentage,
-        _scaleType = scaleType;
+        _scaleType = scaleType,
+        _allowScaleDown = allowScaleDown;
 
   ValueNotifier<bool> get isZoomedNotifier => _isZoomedNotifier;
   final ValueNotifier<bool> _isZoomedNotifier = ValueNotifier(false);
@@ -31,8 +33,11 @@ class ZoomableController extends ChangeNotifier {
     _isZoomedNotifier.value = value;
   }
 
+  bool get allowScaleDown => _allowScaleDown;
+  late final bool _allowScaleDown;
+
   ZoomableScaleType get scaleType => _scaleType;
-  late ZoomableScaleType _scaleType;
+  late final ZoomableScaleType _scaleType;
 
   double get scaleToPercentage => _scaleToPercentage;
   late double _scaleToPercentage;

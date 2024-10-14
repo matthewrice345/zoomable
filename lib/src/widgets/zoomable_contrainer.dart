@@ -147,6 +147,9 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
 
     if(widget.controller.scaleType == ZoomableScaleType.percentage) {
       scale = _scaleToPercentage(widget.controller.scaleToPercentage, screenSize, boxSize);
+      if(widget.controller.allowScaleDown == false && scale < 1.0) {
+        scale = 1.0;
+      }
     } else {
       scale = maxScale < widget.controller.scaleTo ? maxScale : widget.controller.scaleTo;
     }
