@@ -6,6 +6,7 @@ import 'package:zoomable/zoomable.dart';
 
 class UseCaseOne extends StatefulWidget {
   const UseCaseOne({super.key, required this.useCase});
+
   final UseCases useCase;
 
   @override
@@ -13,7 +14,6 @@ class UseCaseOne extends StatefulWidget {
 }
 
 class _UseCaseState extends State<UseCaseOne> {
-
   late ZoomableController controller;
 
   @override
@@ -49,95 +49,87 @@ class _UseCaseState extends State<UseCaseOne> {
           debugPrint('Zoomable $id is zoomed: $zoomed');
         },
         controller: controller,
-        builder: (context, key) {
-          return Column(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'red',
-                        controller: controller,
-                        child: ColoredBoxChild(
-                          text: 'Red',
-                          color: Colors.red,
-                          onTap: () => controller.zoomTo('red'),
-                        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ZoomableBox(
+                      id: 'red',
+                      child: ColoredBoxChild(
+                        text: 'Red',
+                        color: Colors.red,
+                        onTap: () => controller.zoomTo('red'),
                       ),
                     ),
-                    const Gap(24),
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'cyan',
-                        controller: controller,
-                        child: ColoredBoxChild(
-                          text: 'Cyan',
-                          color: Colors.cyan,
-                          onTap: () => controller.zoomTo('cyan'),
-                        ),
-                      ),
-                    ),
-                    const Gap(24),
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'green',
-                        controller: controller,
-                        child: ColoredBoxChild(
-                          text: 'Green',
-                          color: Colors.green,
-                          onTap: () => controller.zoomTo('green'),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Gap(24),
-              Expanded(
-                child: ZoomableBox(
-                  id: 'purple',
-                  controller: controller,
-                  child: ColoredBoxChild(
-                    text: 'Purple',
-                    color: Colors.purple,
-                    onTap: () => controller.zoomTo('purple'),
                   ),
-                ),
-              ),
-              const Gap(24),
-              Expanded(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'blue',
-                        controller: controller,
-                        child: ColoredBoxChild(
-                          text: 'Blue',
-                          color: Colors.blue,
-                          onTap: () => controller.zoomTo('blue'),
-                        ),
+                  const Gap(24),
+                  Expanded(
+                    child: ZoomableBox(
+                      id: 'cyan',
+                      child: ColoredBoxChild(
+                        text: 'Cyan',
+                        color: Colors.cyan,
+                        onTap: () => controller.zoomTo('cyan'),
                       ),
                     ),
-                    const Gap(24),
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'orange',
-                        controller: controller,
-                        child: ColoredBoxChild(
-                          text: 'Orange',
-                          color: Colors.orange,
-                          onTap: () => controller.zoomTo('orange'),
-                        ),
+                  ),
+                  const Gap(24),
+                  Expanded(
+                    child: ZoomableBox(
+                      id: 'green',
+                      child: ColoredBoxChild(
+                        text: 'Green',
+                        color: Colors.green,
+                        onTap: () => controller.zoomTo('green'),
                       ),
                     ),
-                  ],
+                  ),
+                ],
+              ),
+            ),
+            const Gap(24),
+            Expanded(
+              child: ZoomableBox(
+                id: 'purple',
+                child: ColoredBoxChild(
+                  text: 'Purple',
+                  color: Colors.purple,
+                  onTap: () => controller.zoomTo('purple'),
                 ),
               ),
-            ],
-          );
-        },
+            ),
+            const Gap(24),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ZoomableBox(
+                      id: 'blue',
+                      child: ColoredBoxChild(
+                        text: 'Blue',
+                        color: Colors.blue,
+                        onTap: () => controller.zoomTo('blue'),
+                      ),
+                    ),
+                  ),
+                  const Gap(24),
+                  Expanded(
+                    child: ZoomableBox(
+                      id: 'orange',
+                      child: ColoredBoxChild(
+                        text: 'Orange',
+                        color: Colors.orange,
+                        onTap: () => controller.zoomTo('orange'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

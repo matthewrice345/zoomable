@@ -58,8 +58,15 @@ class ZoomableController extends ChangeNotifier {
       final offset = _zoomableOffsets[id];
       if (offset != null) {
         final boxSize = ZoomableUtils.getWidgetSize(zoomable.key);
-        parentState?.onZoomableTap(id, offset, boxSize);
+        parentState?.onZoomTo(id, offset, boxSize);
+        notifyListeners();
       }
     }
+  }
+
+  void zoomOut() {
+    final parentState = zoomableKey.currentState;
+    parentState?.onZoomOut();
+    notifyListeners();
   }
 }
