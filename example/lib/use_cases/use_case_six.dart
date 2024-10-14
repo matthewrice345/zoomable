@@ -4,31 +4,33 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zoomable/zoomable.dart';
 
-/// Use-case 5
+/// Use-case 6
 ///
-/// Makes use of the [ZoomableController]s notifier to know when we are zoomed in or out.
-/// Hides a widget when zoomed.
-class UseCaseFive extends StatefulWidget {
-  const UseCaseFive({super.key, required this.useCase});
+/// Tests out the percentage scale type
+class UseCaseSix extends StatefulWidget {
+  const UseCaseSix({super.key, required this.useCase});
 
   final UseCases useCase;
 
   @override
-  State<UseCaseFive> createState() => _UseCaseState();
+  State<UseCaseSix> createState() => _UseCaseState();
 }
 
-class _UseCaseState extends State<UseCaseFive> {
+class _UseCaseState extends State<UseCaseSix> {
   late ZoomableController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = ZoomableController(zoomables: [
-      Zoomable(id: 'red', key: GlobalKey()),
-      Zoomable(id: 'green', key: GlobalKey()),
-      Zoomable(id: 'blue', key: GlobalKey()),
-      Zoomable(id: 'orange', key: GlobalKey()),
-    ]);
+    controller = ZoomableController(
+      zoomables: [
+        Zoomable(id: 'red', key: GlobalKey()),
+        Zoomable(id: 'green', key: GlobalKey()),
+        Zoomable(id: 'blue', key: GlobalKey()),
+      ],
+      scaleToPercentage: 1.0,
+      scaleType: ZoomableScaleType.percentage,
+    );
   }
 
   @override
@@ -55,27 +57,18 @@ class _UseCaseState extends State<UseCaseFive> {
           children: [
             Center(
               child: SizedBox(
-                height: 200,
-                child: Row(
+                width: 200,
+                child: Column(
                   children: [
                     Expanded(
+                      flex: 2,
                       child: ZoomableBox(
                         id: 'red',
                         child: ColoredBoxChild(
                           text: 'Red',
                           color: Colors.red,
+                          borderColor: Colors.redAccent,
                           onTap: () => controller.zoomTo('red'),
-                        ),
-                      ),
-                    ),
-                    const Gap(24),
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'blue',
-                        child: ColoredBoxChild(
-                          text: 'Blue',
-                          color: Colors.blue,
-                          onTap: () => controller.zoomTo('blue'),
                         ),
                       ),
                     ),
@@ -86,6 +79,7 @@ class _UseCaseState extends State<UseCaseFive> {
                         child: ColoredBoxChild(
                           text: 'Green',
                           color: Colors.green,
+                          borderColor: Colors.greenAccent,
                           onTap: () => controller.zoomTo('green'),
                         ),
                       ),
@@ -93,34 +87,17 @@ class _UseCaseState extends State<UseCaseFive> {
                     const Gap(24),
                     Expanded(
                       child: ZoomableBox(
-                        id: 'orange',
+                        id: 'blue',
                         child: ColoredBoxChild(
-                          text: 'Orange',
-                          color: Colors.orange,
-                          onTap: () => controller.zoomTo('orange'),
+                          text: 'Blue',
+                          color: Colors.blue,
+                          borderColor: Colors.blueAccent,
+                          onTap: () => controller.zoomTo('blue'),
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            IgnorePointer(
-              ignoring: true,
-              child: ValueListenableBuilder(
-                valueListenable: controller.isZoomedNotifier,
-                builder: (context, isZoomed, _) {
-                  return Center(
-                    child: AnimatedOpacity(
-                      duration: const Duration(milliseconds: 280),
-                      opacity: isZoomed ? 0.0 : 1.0,
-                      child: const Text(
-                        'Zoomable Example!',
-                        style: TextStyle(fontSize: 44, fontWeight: FontWeight.w900, color: Colors.black),
-                      ),
-                    ),
-                  );
-                },
               ),
             ),
           ],

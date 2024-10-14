@@ -20,4 +20,6 @@ extension BoxConstraintsExtensions on BoxConstraints {
 
 extension SizeExtensions on Size {
   bool get isZero => width == 0 || height == 0;
+  double get smallest => width < height ? width : height;
+  double get biggest => width > height ? width : height;
 }

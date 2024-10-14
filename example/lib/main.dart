@@ -1,8 +1,9 @@
-import 'package:exampleZoomable/use_cases/use_case_five.dart';
-import 'package:exampleZoomable/use_cases/use_case_four.dart';
-import 'package:exampleZoomable/use_cases/use_case_one.dart';
-import 'package:exampleZoomable/use_cases/use_case_three.dart';
-import 'package:exampleZoomable/use_cases/use_case_two.dart';
+import 'package:example_zoomable/use_cases/use_case_five.dart';
+import 'package:example_zoomable/use_cases/use_case_four.dart';
+import 'package:example_zoomable/use_cases/use_case_one.dart';
+import 'package:example_zoomable/use_cases/use_case_six.dart';
+import 'package:example_zoomable/use_cases/use_case_three.dart';
+import 'package:example_zoomable/use_cases/use_case_two.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,7 +31,8 @@ enum UseCases {
   two('Two'),
   three('Three'),
   four('Four'),
-  five('Five');
+  five('Five'),
+  six('Six');
 
   const UseCases(this.title);
 
@@ -67,22 +69,26 @@ class _ExampleState extends State<Example> {
           return Card(
             child: InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    switch (useCase) {
-                      case UseCases.one:
-                        return UseCaseOne(useCase: useCase);
-                      case UseCases.two:
-                        return UseCaseTwo(useCase: useCase);
-                      case UseCases.three:
-                        return UseCaseThree(useCase: useCase);
-                      case UseCases.four:
-                        return UseCaseFour(useCase: useCase);
-                      case UseCases.five:
-                        return UseCaseFive(useCase: useCase);
-                    }
-                  },
-                ));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      switch (useCase) {
+                        case UseCases.one:
+                          return UseCaseOne(useCase: useCase);
+                        case UseCases.two:
+                          return UseCaseTwo(useCase: useCase);
+                        case UseCases.three:
+                          return UseCaseThree(useCase: useCase);
+                        case UseCases.four:
+                          return UseCaseFour(useCase: useCase);
+                        case UseCases.five:
+                          return UseCaseFive(useCase: useCase);
+                        case UseCases.six:
+                          return UseCaseSix(useCase: useCase);
+                      }
+                    },
+                  ),
+                );
               },
               child: Center(child: Text(useCase.title)),
             ),

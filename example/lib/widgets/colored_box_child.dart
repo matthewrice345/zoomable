@@ -6,10 +6,12 @@ class ColoredBoxChild extends StatelessWidget {
     required this.text,
     required this.color,
     required this.onTap,
+    this.borderColor,
   });
 
   final String text;
   final Color color;
+  final Color? borderColor;
   final VoidCallback onTap;
 
   @override
@@ -19,6 +21,12 @@ class ColoredBoxChild extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: color,
+          border: borderColor != null
+              ? Border.all(
+                  color: borderColor!,
+                  width: 4,
+                )
+              : null,
         ),
         child: Center(
           child: Text(

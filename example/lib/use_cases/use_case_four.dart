@@ -1,5 +1,5 @@
-import 'package:exampleZoomable/main.dart';
-import 'package:exampleZoomable/widgets/colored_box_child.dart';
+import 'package:example_zoomable/main.dart';
+import 'package:example_zoomable/widgets/colored_box_child.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zoomable/zoomable.dart';

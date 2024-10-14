@@ -3,23 +3,43 @@ import 'package:zoomable/src/zoomable.dart';
 import 'package:zoomable/src/zoomable_types.dart';
 import 'package:zoomable/src/zoomable_utils.dart';
 
+enum ZoomableScaleType {
+  value,
+  percentage;
+}
+
 /// ZoomableController
 class ZoomableController extends ChangeNotifier {
   ZoomableController({
     required List<Zoomable> zoomables,
     double scaleTo = 1.5,
+    double scaleToPercentage = 0.75,
+    ZoomableScaleType scaleType = ZoomableScaleType.value,
   })  : _zoomables = Map.fromEntries(
           zoomables.map(
             (zoomable) => MapEntry(zoomable.id, zoomable),
           ),
         ),
-        _scaleTo = scaleTo;
+        _scaleTo = scaleTo,
+        _scaleToPercentage = scaleToPercentage,
+        _scaleType = scaleType;
 
   ValueNotifier<bool> get isZoomedNotifier => _isZoomedNotifier;
   final ValueNotifier<bool> _isZoomedNotifier = ValueNotifier(false);
 
   void setIsZoomed(bool value) {
     _isZoomedNotifier.value = value;
+  }
+
+  ZoomableScaleType get scaleType => _scaleType;
+  late ZoomableScaleType _scaleType;
+
+  double get scaleToPercentage => _scaleToPercentage;
+  late double _scaleToPercentage;
+
+  set scaleToPercentage(double value) {
+    _scaleToPercentage = value;
+    notifyListeners();
   }
 
   double get scaleTo => _scaleTo;

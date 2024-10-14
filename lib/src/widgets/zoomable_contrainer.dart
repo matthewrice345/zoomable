@@ -11,6 +11,10 @@ class ZoomableContainer extends StatefulWidget {
     this.padding = EdgeInsets.zero,
     this.clipBehavior = Clip.hardEdge,
     this.onZoomableChanged,
+    this.minScale = 1,
+    this.maxScale = 10,
+    this.zoomInDuration = const Duration(milliseconds: 500),
+    this.zoomOutDuration = const Duration(milliseconds: 500),
   }) : super(key: zoomableKey);
 
   final Widget child;
@@ -18,6 +22,10 @@ class ZoomableContainer extends StatefulWidget {
   final Clip clipBehavior;
   final ZoomableListener? onZoomableChanged;
   final ZoomableController controller;
+  final double minScale;
+  final double maxScale;
+  final Duration zoomInDuration;
+  final Duration zoomOutDuration;
 
   @override
   State<ZoomableContainer> createState() => ZoomableContainerState();
@@ -44,11 +52,11 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     _controller.value = Matrix4.identity();
     _zoomInAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: widget.zoomInDuration,
     );
     _zoomOutAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: widget.zoomOutDuration,
     );
   }
 
@@ -69,8 +77,8 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
           constrained: false,
           panEnabled: false,
           scaleEnabled: false,
-          maxScale: 10,
-          minScale: 1,
+          minScale: widget.minScale,
+          maxScale: widget.maxScale,
           clipBehavior: widget.clipBehavior,
           child: SizedBox(
             height: parentConstraints.maxHeight,
@@ -114,7 +122,7 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
           // These need to remain last.
           widget.controller.currentFocus = null;
           widget.controller.isAnimating = false;
-        } else if(status == AnimationStatus.dismissed) {
+        } else if(status == AnimationStatus.forward) {
           widget.onZoomableChanged?.call(boxId, false);
           widget.controller.setIsZoomed(false);
         }
@@ -134,7 +142,14 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     final maxScaleX = screenWidth / boxWidth;
     final maxScaleY = screenHeight / boxHeight;
     final maxScale = maxScaleX < maxScaleY ? maxScaleX : maxScaleY;
-    final scale = maxScale < widget.controller.scaleTo ? maxScale : widget.controller.scaleTo;
+
+    late double scale;
+
+    if(widget.controller.scaleType == ZoomableScaleType.percentage) {
+      scale = _scaleToPercentage(widget.controller.scaleToPercentage, screenSize, boxSize);
+    } else {
+      scale = maxScale < widget.controller.scaleTo ? maxScale : widget.controller.scaleTo;
+    }
 
     final centerScreenOffset = Offset(screenWidth / 2, screenHeight / 2);
     final scaledBoxOffset = Offset(
@@ -161,7 +176,7 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
       if (status == AnimationStatus.completed) {
         _zoomInAnimationController.removeStatusListener(_zoomInAnimationListener);
         widget.controller.isAnimating = false;
-      } else if(status == AnimationStatus.dismissed) {
+      } else if(status == AnimationStatus.forward) {
         widget.controller.setIsZoomed(true);
         widget.onZoomableChanged?.call(boxId, true);
       }
@@ -169,6 +184,14 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     _zoomInAnimation.addStatusListener(_zoomInAnimationListener);
     _zoomInAnimationController.forward(from: 0);
     widget.controller.currentFocus = boxId;
+  }
+
+
+  double _scaleToPercentage(double percentage, Size screenSize, Size boxSize) {
+    final smallestSide = screenSize.smallest;
+    final largestBoxSide = boxSize.biggest;
+    final targetBoxSize = smallestSide * percentage;
+    return targetBoxSize / largestBoxSide;
   }
 
   void _centerBox(
