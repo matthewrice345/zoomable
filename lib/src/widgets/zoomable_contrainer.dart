@@ -34,6 +34,7 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
   late void Function(AnimationStatus) _zoomOutAnimationListener;
 
   bool get isZoomed => !isNotZoomed;
+
   bool get isNotZoomed => _controller.value.getMaxScaleOnAxis() == 1.0;
 
   @override
@@ -106,8 +107,10 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
       _zoomOutAnimationListener = (status) {
         if (status == AnimationStatus.completed) {
           _zoomOutAnimationController.removeStatusListener(_zoomOutAnimationListener);
-          widget.onZoomableChanged?.call(boxId, false);
           _controller.value = Matrix4.identity();
+          widget.onZoomableChanged?.call(boxId, false);
+          widget.controller.setIsZoomed(false);
+          // These need to remain last.
           widget.controller.currentFocus = null;
           widget.controller.isAnimating = false;
         }
@@ -150,6 +153,7 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     _zoomInAnimationListener = (status) {
       if (status == AnimationStatus.completed) {
         _zoomInAnimationController.removeStatusListener(_zoomInAnimationListener);
+        widget.controller.setIsZoomed(true);
         widget.onZoomableChanged?.call(boxId, true);
         widget.controller.isAnimating = false;
       }

@@ -8,12 +8,19 @@ class ZoomableController extends ChangeNotifier {
   ZoomableController({
     required List<Zoomable> zoomables,
     double scaleTo = 1.5,
-  }) : _zoomables = Map.fromEntries(
+  })  : _zoomables = Map.fromEntries(
           zoomables.map(
             (zoomable) => MapEntry(zoomable.id, zoomable),
           ),
         ),
         _scaleTo = scaleTo;
+
+  ValueNotifier<bool> get isZoomedNotifier => _isZoomedNotifier;
+  final ValueNotifier<bool> _isZoomedNotifier = ValueNotifier(false);
+
+  void setIsZoomed(bool value) {
+    _isZoomedNotifier.value = value;
+  }
 
   double get scaleTo => _scaleTo;
   late double _scaleTo;
@@ -36,7 +43,7 @@ class ZoomableController extends ChangeNotifier {
   bool _isAnimating = false;
 
   set isAnimating(bool value) {
-    if(_isAnimating == value) return;
+    if (_isAnimating == value) return;
     _isAnimating = value;
     notifyListeners();
   }
