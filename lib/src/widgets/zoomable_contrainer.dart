@@ -105,14 +105,18 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
       );
       _zoomOutAnimation.addListener(() => _controller.value = _zoomOutAnimation.value);
       _zoomOutAnimationListener = (status) {
+        // AnimationStatus.dismissed
+        // AnimationStatus.forward
+        // AnimationStatus.completed
         if (status == AnimationStatus.completed) {
           _zoomOutAnimationController.removeStatusListener(_zoomOutAnimationListener);
           _controller.value = Matrix4.identity();
-          widget.onZoomableChanged?.call(boxId, false);
-          widget.controller.setIsZoomed(false);
           // These need to remain last.
           widget.controller.currentFocus = null;
           widget.controller.isAnimating = false;
+        } else if(status == AnimationStatus.dismissed) {
+          widget.onZoomableChanged?.call(boxId, false);
+          widget.controller.setIsZoomed(false);
         }
       };
       _zoomOutAnimation.addStatusListener(_zoomOutAnimationListener);
@@ -151,11 +155,15 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
 
     _zoomInAnimation.addListener(() => _controller.value = _zoomInAnimation.value);
     _zoomInAnimationListener = (status) {
+      // AnimationStatus.dismissed
+      // AnimationStatus.forward
+      // AnimationStatus.completed
       if (status == AnimationStatus.completed) {
         _zoomInAnimationController.removeStatusListener(_zoomInAnimationListener);
+        widget.controller.isAnimating = false;
+      } else if(status == AnimationStatus.dismissed) {
         widget.controller.setIsZoomed(true);
         widget.onZoomableChanged?.call(boxId, true);
-        widget.controller.isAnimating = false;
       }
     };
     _zoomInAnimation.addStatusListener(_zoomInAnimationListener);

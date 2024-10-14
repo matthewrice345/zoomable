@@ -1,3 +1,4 @@
+import 'package:exampleZoomable/use_cases/use_case_five.dart';
 import 'package:exampleZoomable/use_cases/use_case_four.dart';
 import 'package:exampleZoomable/use_cases/use_case_one.dart';
 import 'package:exampleZoomable/use_cases/use_case_three.dart';
@@ -28,7 +29,8 @@ enum UseCases {
   one('One'),
   two('Two'),
   three('Three'),
-  four('Four');
+  four('Four'),
+  five('Five');
 
   const UseCases(this.title);
 
@@ -76,6 +78,8 @@ class _ExampleState extends State<Example> {
                         return UseCaseThree(useCase: useCase);
                       case UseCases.four:
                         return UseCaseFour(useCase: useCase);
+                      case UseCases.five:
+                        return UseCaseFive(useCase: useCase);
                     }
                   },
                 ));
