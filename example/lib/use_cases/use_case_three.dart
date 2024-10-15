@@ -19,12 +19,14 @@ class _UseCaseState extends State<UseCaseThree> {
   @override
   void initState() {
     super.initState();
-    controller = ZoomableController(zoomables: [
-      Zoomable(id: 'red', key: GlobalKey()),
-      Zoomable(id: 'green', key: GlobalKey()),
-      Zoomable(id: 'blue', key: GlobalKey()),
-      Zoomable(id: 'orange', key: GlobalKey()),
-    ]);
+    controller = ZoomableController(
+      // zoomables: [
+      //   Zoomable(id: 'red', key: GlobalKey()),
+      //   Zoomable(id: 'green', key: GlobalKey()),
+      //   Zoomable(id: 'blue', key: GlobalKey()),
+      //   Zoomable(id: 'orange', key: GlobalKey()),
+      // ],
+    );
   }
 
   @override

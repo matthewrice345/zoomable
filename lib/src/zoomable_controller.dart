@@ -11,17 +11,11 @@ enum ZoomableScaleType {
 /// ZoomableController
 class ZoomableController extends ChangeNotifier {
   ZoomableController({
-    required List<Zoomable> zoomables,
     double scaleTo = 1.5,
     double scaleToPercentage = 0.75,
     ZoomableScaleType scaleType = ZoomableScaleType.value,
     bool allowScaleDown = true,
-  })  : _zoomables = Map.fromEntries(
-          zoomables.map(
-            (zoomable) => MapEntry(zoomable.id, zoomable),
-          ),
-        ),
-        _scaleTo = scaleTo,
+  }) : _scaleTo = scaleTo,
         _scaleToPercentage = scaleToPercentage,
         _scaleType = scaleType,
         _allowScaleDown = allowScaleDown;
@@ -77,7 +71,13 @@ class ZoomableController extends ChangeNotifier {
   final ZoomableKey _zoomableKey = GlobalKey();
 
   Map<ZoomableId, Zoomable> get zoomables => _zoomables;
-  late final Map<ZoomableId, Zoomable> _zoomables;
+  final Map<ZoomableId, Zoomable> _zoomables = {};
+
+  void addZoomableBox(ZoomableId id) {
+    if(!zoomables.containsKey(id)) {
+      _zoomables[id] = Zoomable(id: id, key: GlobalKey());
+    }
+  }
 
   final Map<ZoomableId, Offset> _zoomableOffsets = {};
 
@@ -100,5 +100,11 @@ class ZoomableController extends ChangeNotifier {
   void zoomOut() {
     zoomableKey.currentState?.onZoomOut();
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _zoomables.clear();
+    super.dispose();
   }
 }

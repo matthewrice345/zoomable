@@ -23,11 +23,11 @@ class _UseCaseState extends State<UseCaseSix> {
   void initState() {
     super.initState();
     controller = ZoomableController(
-      zoomables: [
-        Zoomable(id: 'red', key: GlobalKey()),
-        Zoomable(id: 'green', key: GlobalKey()),
-        Zoomable(id: 'blue', key: GlobalKey()),
-      ],
+      // zoomables: [
+      //   Zoomable(id: 'red', key: GlobalKey()),
+      //   Zoomable(id: 'green', key: GlobalKey()),
+      //   Zoomable(id: 'blue', key: GlobalKey()),
+      // ],
       scaleToPercentage: 1.0,
       scaleType: ZoomableScaleType.percentage,
     );

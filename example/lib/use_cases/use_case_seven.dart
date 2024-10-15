@@ -1,7 +1,6 @@
 import 'package:example_zoomable/main.dart';
 import 'package:example_zoomable/widgets/colored_box_child.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:zoomable/zoomable.dart';
 
 /// Use-case 6
@@ -23,9 +22,9 @@ class _UseCaseState extends State<UseCaseSeven> {
   void initState() {
     super.initState();
     controller = ZoomableController(
-      zoomables: [
-        Zoomable(id: 'blue', key: GlobalKey()),
-      ],
+      // zoomables: [
+      //   Zoomable(id: 'blue', key: GlobalKey()),
+      // ],
       scaleToPercentage: 0.6,
       scaleType: ZoomableScaleType.percentage,
       allowScaleDown: false,
