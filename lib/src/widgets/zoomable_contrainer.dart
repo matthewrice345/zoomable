@@ -106,8 +106,7 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     final beginMatrix = _controller.value.clone();
     final endMatrix = Matrix4.identity();
 
-    final boxId = widget.controller.currentFocus;
-    if (boxId != null) {
+    if (widget.controller.isZoomedNotifier.value) {
       _zoomOutAnimation = Matrix4Tween(begin: beginMatrix, end: endMatrix).animate(
         CurvedAnimation(parent: _zoomOutAnimationController, curve: Curves.easeInOut),
       );
@@ -123,7 +122,10 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
           widget.controller.currentFocus = null;
           widget.controller.isAnimating = false;
         } else if(status == AnimationStatus.forward) {
-          widget.onZoomableChanged?.call(boxId, false);
+          final boxId = widget.controller.currentFocus;
+          if(boxId != null) {
+            widget.onZoomableChanged?.call(boxId, false);
+          }
           widget.controller.setIsZoomed(false);
         }
       };

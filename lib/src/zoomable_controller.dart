@@ -98,6 +98,8 @@ class ZoomableController extends ChangeNotifier {
   }
 
   void zoomOut() {
+    debugPrint("ZoomableController: zoomOut");
+    debugPrint("Do we have a currentState? ${zoomableKey.currentState != null}");
     zoomableKey.currentState?.onZoomOut();
     notifyListeners();
   }
