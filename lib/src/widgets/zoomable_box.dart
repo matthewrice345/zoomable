@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zoomable/src/widgets/zoomable_internal_box.dart';
-import 'package:zoomable/src/zoomable_controller_provider.dart';
+import 'package:zoomable/src/zoomable_controller.dart';
 import 'package:zoomable/src/zoomable_types.dart';
 
 class ZoomableBox extends StatelessWidget {
@@ -17,7 +17,7 @@ class ZoomableBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return ZoomableInternalBox(
       id: id,
-      controller: ZoomableControllerProvider.of(context),
+      controller: ZoomableController.of(context),
       child: child,
     );
   }

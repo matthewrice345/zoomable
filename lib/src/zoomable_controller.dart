@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:zoomable/src/zoomable.dart';
+import 'package:zoomable/src/zoomable_controller_provider.dart';
 import 'package:zoomable/src/zoomable_types.dart';
 import 'package:zoomable/src/zoomable_utils.dart';
 
@@ -79,6 +80,10 @@ class ZoomableController extends ChangeNotifier {
     }
   }
 
+  void clearZoomableBoxes() {
+    _zoomables.clear();
+  }
+
   final Map<ZoomableId, Offset> _zoomableOffsets = {};
 
   void setZoomableOffset(ZoomableId id, Offset offset) {
@@ -98,8 +103,6 @@ class ZoomableController extends ChangeNotifier {
   }
 
   void zoomOut() {
-    debugPrint("ZoomableController: zoomOut");
-    debugPrint("Do we have a currentState? ${zoomableKey.currentState != null}");
     zoomableKey.currentState?.onZoomOut();
     notifyListeners();
   }
@@ -108,5 +111,16 @@ class ZoomableController extends ChangeNotifier {
   void dispose() {
     _zoomables.clear();
     super.dispose();
+  }
+
+  static ZoomableController of(BuildContext context) {
+    final ZoomableControllerProvider? result = context.dependOnInheritedWidgetOfExactType<ZoomableControllerProvider>();
+    assert(result != null, 'No ZoomableProvider found in context');
+    return result!.controller;
+  }
+
+  static ZoomableController? ofMaybe(BuildContext context) {
+    final ZoomableControllerProvider? result = context.dependOnInheritedWidgetOfExactType<ZoomableControllerProvider>();
+    return result?.controller;
   }
 }

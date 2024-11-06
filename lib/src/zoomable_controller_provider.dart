@@ -10,17 +10,6 @@ class ZoomableControllerProvider extends InheritedWidget {
 
   final ZoomableController controller;
 
-  static ZoomableController of(BuildContext context) {
-    final ZoomableControllerProvider? result = context.dependOnInheritedWidgetOfExactType<ZoomableControllerProvider>();
-    assert(result != null, 'No ZoomableProvider found in context');
-    return result!.controller;
-  }
-
-  static ZoomableController? ofMaybe(BuildContext context) {
-    final ZoomableControllerProvider? result = context.dependOnInheritedWidgetOfExactType<ZoomableControllerProvider>();
-    return result?.controller;
-  }
-
   @override
   bool updateShouldNotify(ZoomableControllerProvider oldWidget) {
     return controller != oldWidget.controller;

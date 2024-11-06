@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:zoomable/src/zoomable_controller.dart';
-import 'package:zoomable/src/zoomable_controller_provider.dart';
 import 'package:zoomable/src/zoomable_types.dart';
 import 'package:zoomable/src/zoomable_utils.dart';
 
@@ -30,11 +29,17 @@ class _ZoomableInternalBoxState extends State<ZoomableInternalBox> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ZoomableControllerProvider.ofMaybe(context);
+    final controller = ZoomableController.ofMaybe(context);
 
     if(controller == null || controller.zoomables.isEmpty) {
-      debugPrint('ZoomableBox: ZoomableController is null or ZoomableController had and empty List<Zoomable>');
+      debugPrint('ZoomableBox: ZoomableController is null, ZoomableController had and empty List<Zoomable>');
+      debugPrint('Zoomables: ${controller?.zoomables}');
       return widget.child;
+    }
+
+    if(controller.zoomables.containsKey(widget.id) == false) {
+      debugPrint("ZoomableBox: Id was missing from the controller, adding it now");
+      controller.addZoomableBox(widget.id);
     }
 
     final zoomable = controller.zoomables[widget.id]!;
