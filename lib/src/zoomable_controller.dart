@@ -97,7 +97,7 @@ class ZoomableController extends ChangeNotifier {
     }
   }
 
-  void removeZoomableOffset(ZoomableId id) {
+  void resetZoomableOffset(ZoomableId id) {
     _zoomableOffsets.remove(id);
   }
 

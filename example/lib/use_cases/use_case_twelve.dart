@@ -162,9 +162,9 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
       data[fromIndex] = data[toIndex];
       data[toIndex] = temp;
 
-      // removes teh offsets so that the next build they can reset.
-      controller.removeZoomableOffset(to);
-      controller.removeZoomableOffset(from);
+      // resets the offsets so that the next build they can reset.
+      controller.resetZoomableOffset(to);
+      controller.resetZoomableOffset(from);
     });
   }
 }
