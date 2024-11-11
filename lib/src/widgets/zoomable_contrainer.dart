@@ -72,6 +72,7 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, parentConstraints) {
+        debugPrint("ZoomableContainer: parentConstraints: $parentConstraints");
         return InteractiveViewer(
           transformationController: _controller,
           constrained: false,
@@ -97,9 +98,8 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     if (widget.controller.isAnimating) {
       return;
     }
-
     final parentSize = ZoomableUtils.getWidgetSize(widget.key as ZoomableKey);
-    _centerBox(boxSize, parentSize, offset, id);
+    _centerBox(boxSize: boxSize, screenSize: parentSize, boxOffset: offset, boxId: id);
   }
 
   void onZoomOut() {
@@ -121,9 +121,9 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
           // These need to remain last.
           widget.controller.currentFocus = null;
           widget.controller.isAnimating = false;
-        } else if(status == AnimationStatus.forward) {
+        } else if (status == AnimationStatus.forward) {
           final boxId = widget.controller.currentFocus;
-          if(boxId != null) {
+          if (boxId != null) {
             widget.onZoomableChanged?.call(boxId, false);
           }
           widget.controller.setIsZoomed(false);
@@ -147,9 +147,9 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
 
     late double scale;
 
-    if(widget.controller.scaleType == ZoomableScaleType.percentage) {
+    if (widget.controller.scaleType == ZoomableScaleType.percentage) {
       scale = _scaleToPercentage(widget.controller.scaleToPercentage, screenSize, boxSize);
-      if(widget.controller.allowScaleDown == false && scale < 1.0) {
+      if (widget.controller.allowScaleDown == false && scale < 1.0) {
         scale = 1.0;
       }
     } else {
@@ -161,6 +161,7 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
       boxOffset.dx * scale,
       boxOffset.dy * scale,
     );
+
     final xOffset = centerScreenOffset.dx - (scaledBoxOffset.dx + (boxWidth * scale) / 2);
     final yOffset = centerScreenOffset.dy - (scaledBoxOffset.dy + (boxHeight * scale) / 2);
 
@@ -181,7 +182,7 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
       if (status == AnimationStatus.completed) {
         _zoomInAnimationController.removeStatusListener(_zoomInAnimationListener);
         widget.controller.isAnimating = false;
-      } else if(status == AnimationStatus.forward) {
+      } else if (status == AnimationStatus.forward) {
         widget.controller.setIsZoomed(true);
         widget.onZoomableChanged?.call(boxId, true);
       }
@@ -191,7 +192,6 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     widget.controller.currentFocus = boxId;
   }
 
-
   double _scaleToPercentage(double percentage, Size screenSize, Size boxSize) {
     final smallestSide = screenSize.smallest;
     final largestBoxSide = boxSize.biggest;
@@ -199,12 +199,12 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     return targetBoxSize / largestBoxSide;
   }
 
-  void _centerBox(
-    Size boxSize,
-    Size screenSize,
-    Offset boxOffset,
-    String boxId,
-  ) {
+  void _centerBox({
+    required Size boxSize,
+    required Size screenSize,
+    required Offset boxOffset,
+    required String boxId,
+  }) {
     setState(() {
       if (boxSize.isZero || screenSize.isZero) {
         return;

@@ -87,7 +87,18 @@ class ZoomableController extends ChangeNotifier {
   final Map<ZoomableId, Offset> _zoomableOffsets = {};
 
   void setZoomableOffset(ZoomableId id, Offset offset) {
+    // setting the offset every time will cause the zoom to be off after a setState is done.
     _zoomableOffsets[id] ??= offset;
+  }
+
+  void updateZoomableOffset(ZoomableId id, Offset offset) {
+    if(_zoomableOffsets.containsKey(id)) {
+      _zoomableOffsets[id] = offset;
+    }
+  }
+
+  void removeZoomableOffset(ZoomableId id) {
+    _zoomableOffsets.remove(id);
   }
 
   void zoomTo(ZoomableId id) {

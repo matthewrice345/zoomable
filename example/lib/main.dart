@@ -1,9 +1,14 @@
+import 'package:example_zoomable/use_cases/use_case_eight.dart';
+import 'package:example_zoomable/use_cases/use_case_eleven.dart';
 import 'package:example_zoomable/use_cases/use_case_five.dart';
 import 'package:example_zoomable/use_cases/use_case_four.dart';
+import 'package:example_zoomable/use_cases/use_case_nine.dart';
 import 'package:example_zoomable/use_cases/use_case_one.dart';
 import 'package:example_zoomable/use_cases/use_case_seven.dart';
 import 'package:example_zoomable/use_cases/use_case_six.dart';
+import 'package:example_zoomable/use_cases/use_case_ten.dart';
 import 'package:example_zoomable/use_cases/use_case_three.dart';
+import 'package:example_zoomable/use_cases/use_case_twelve.dart';
 import 'package:example_zoomable/use_cases/use_case_two.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +39,13 @@ enum UseCases {
   four('Four'),
   five('Five'),
   six('Six'),
-  seven('Seven');
+  seven('Seven'),
+  eight('Eight'),
+  nine('Nine'),
+  ten('Ten'),
+  eleven('Eleven'),
+  twelve('Twelve'),
+  ;
 
   const UseCases(this.title);
 
@@ -89,6 +100,16 @@ class _ExampleState extends State<Example> {
                           return UseCaseSix(useCase: useCase);
                         case UseCases.seven:
                           return UseCaseSeven(useCase: useCase);
+                        case UseCases.eight:
+                          return UseCaseEight(useCase: useCase);
+                        case UseCases.nine:
+                          return UseCaseNine(useCase: useCase);
+                        case UseCases.ten:
+                          return UseCaseTen(useCase: useCase);
+                        case UseCases.eleven:
+                          return UseCaseEleven(useCase: useCase);
+                        case UseCases.twelve:
+                          return UseCaseTwelve(useCase: useCase);
                       }
                     },
                   ),

@@ -1,21 +1,22 @@
 import 'package:example_zoomable/main.dart';
 import 'package:example_zoomable/widgets/colored_box_child.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:zoomable/zoomable.dart';
 
-/// Use-case 7
+/// Use-case 8
 ///
 /// Tests out the percentage scale type
-class UseCaseSeven extends StatefulWidget {
-  const UseCaseSeven({super.key, required this.useCase});
+class UseCaseEight extends StatefulWidget {
+  const UseCaseEight({super.key, required this.useCase});
 
   final UseCases useCase;
 
   @override
-  State<UseCaseSeven> createState() => _UseCaseState();
+  State<UseCaseEight> createState() => _UseCaseEight();
 }
 
-class _UseCaseState extends State<UseCaseSeven> {
+class _UseCaseEight extends State<UseCaseEight> {
   late ZoomableController controller;
 
   @override
@@ -51,26 +52,29 @@ class _UseCaseState extends State<UseCaseSeven> {
           debugPrint('Zoomable $id is zoomed: $zoomed');
         },
         controller: controller,
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
-              child: SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.8,
-                width: MediaQuery.sizeOf(context).width * 0.8,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ZoomableBox(
-                        id: 'blue',
-                        child: ColoredBoxChild(
-                          text: 'Blue',
-                          color: Colors.blue,
-                          borderColor: Colors.blueAccent,
-                          onTap: () => controller.zoomTo('blue'),
-                        ),
-                      ),
-                    ),
-                  ],
+            Expanded(
+              child: ZoomableBox(
+                id: 'blue',
+                child: ColoredBoxChild(
+                  text: 'Blue',
+                  color: Colors.blue,
+                  borderColor: Colors.blueAccent,
+                  onTap: () => controller.zoomTo('blue'),
+                ),
+              ),
+            ),
+            const Gap(12),
+            Expanded(
+              child: ZoomableBox(
+                id: 'red',
+                child: ColoredBoxChild(
+                  text: 'Red',
+                  color: Colors.red,
+                  borderColor: Colors.redAccent,
+                  onTap: () => controller.zoomTo('red'),
                 ),
               ),
             ),

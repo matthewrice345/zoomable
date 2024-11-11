@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:zoomable/src/zoomable_controller.dart';
-import 'package:zoomable/src/zoomable_types.dart';
 import 'package:zoomable/src/zoomable_utils.dart';
+import 'package:zoomable/zoomable.dart';
 
 class ZoomableInternalBox extends StatefulWidget {
   const ZoomableInternalBox({
