@@ -60,7 +60,7 @@ class _UseCaseNine extends State<UseCaseNine> {
                       Expanded(
                         child: ZoomableBox(
                           id: 'blue',
-                          child: ColoredBoxChild(
+                          builder: (context) => ColoredBoxChild(
                             text: 'Blue',
                             color: Colors.blue,
                             borderColor: Colors.blueAccent,
@@ -72,7 +72,7 @@ class _UseCaseNine extends State<UseCaseNine> {
                       Expanded(
                         child: ZoomableBox(
                           id: 'green',
-                          child: ColoredBoxChild(
+                          builder: (context) => ColoredBoxChild(
                             text: 'Green',
                             color: Colors.green,
                             borderColor: Colors.greenAccent,
@@ -87,7 +87,7 @@ class _UseCaseNine extends State<UseCaseNine> {
                 Expanded(
                   child: ZoomableBox(
                     id: 'red',
-                    child: ColoredBoxChild(
+                    builder: (context) => ColoredBoxChild(
                       text: 'Red',
                       color: Colors.red,
                       borderColor: Colors.redAccent,

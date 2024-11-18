@@ -7,18 +7,18 @@ class ZoomableBox extends StatelessWidget {
   const ZoomableBox({
     super.key,
     required this.id,
-    required this.child,
+    required this.builder,
   });
 
   final ZoomableId id;
-  final Widget child;
+  final WidgetBuilder builder;
 
   @override
   Widget build(BuildContext context) {
     return ZoomableInternalBox(
       id: id,
       controller: ZoomableController.of(context),
-      child: child,
+      builder: builder,
     );
   }
 }

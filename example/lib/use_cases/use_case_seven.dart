@@ -62,7 +62,7 @@ class _UseCaseState extends State<UseCaseSeven> {
                     Expanded(
                       child: ZoomableBox(
                         id: 'blue',
-                        child: ColoredBoxChild(
+                        builder: (context) => ColoredBoxChild(
                           text: 'Blue',
                           color: Colors.blue,
                           borderColor: Colors.blueAccent,

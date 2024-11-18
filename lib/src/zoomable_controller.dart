@@ -16,7 +16,7 @@ class ZoomableController extends ChangeNotifier {
     double scaleToPercentage = 0.75,
     ZoomableScaleType scaleType = ZoomableScaleType.value,
     bool allowScaleDown = true,
-  }) : _scaleTo = scaleTo,
+  })  : _scaleTo = scaleTo,
         _scaleToPercentage = scaleToPercentage,
         _scaleType = scaleType,
         _allowScaleDown = allowScaleDown;
@@ -75,8 +75,15 @@ class ZoomableController extends ChangeNotifier {
   final Map<ZoomableId, Zoomable> _zoomables = {};
 
   void addZoomableBox(ZoomableId id) {
-    if(!zoomables.containsKey(id)) {
+    if (!zoomables.containsKey(id)) {
+      debugPrint("Adding zoomable box with id: $id");
       _zoomables[id] = Zoomable(id: id, key: GlobalKey());
+    }
+  }
+
+  void updateZoomableOffset(ZoomableId id, Offset offset) {
+    if(_zoomableOffsets.containsKey(id)) {
+      _zoomableOffsets[id] = offset;
     }
   }
 
@@ -86,30 +93,39 @@ class ZoomableController extends ChangeNotifier {
 
   final Map<ZoomableId, Offset> _zoomableOffsets = {};
 
-  void setZoomableOffset(ZoomableId id, Offset offset) {
-    // setting the offset every time will cause the zoom to be off after a setState is done.
-    _zoomableOffsets[id] ??= offset;
-  }
-
-  void updateZoomableOffset(ZoomableId id, Offset offset) {
-    if(_zoomableOffsets.containsKey(id)) {
-      _zoomableOffsets[id] = offset;
+  void swapZoomableOffsets(ZoomableId z1, ZoomableId z2) {
+    final temp1 = _zoomableOffsets[z1];
+    final temp2 = _zoomableOffsets[z2];
+    if(temp2 != null) {
+      _zoomableOffsets[z1] = temp2;
     }
-  }
+    if(temp1 != null) {
+      _zoomableOffsets[z2] = temp1;
+    }
 
-  void resetZoomableOffset(ZoomableId id) {
-    _zoomableOffsets.remove(id);
+    if(_currentFocus == z1) {
+      _currentFocus = z2;
+    } else if(_currentFocus == z2) {
+      _currentFocus = z1;
+    }
   }
 
   void zoomTo(ZoomableId id) {
     final zoomable = zoomables[id];
     if (zoomable != null) {
-      final offset = _zoomableOffsets[id];
-      if (offset != null) {
-        final boxSize = ZoomableUtils.getWidgetSize(zoomable.key);
-        zoomableKey.currentState?.onZoomTo(id, offset, boxSize);
-        notifyListeners();
+      if (isZoomedNotifier.value == false) {
+        // Gets the current size for all Zoomables and stores them
+        zoomables.forEach((id, zoomable) {
+          _zoomableOffsets[id] = ZoomableUtils.calculateChildPosition(
+            parentKey: zoomableKey,
+            childKey: zoomable.key,
+          );
+        });
       }
+
+      final boxSize = ZoomableUtils.getWidgetSize(zoomable.key);
+      zoomableKey.currentState?.onZoomTo(id, _zoomableOffsets[zoomable.id] ?? Offset.zero, boxSize);
+      notifyListeners();
     }
   }
 

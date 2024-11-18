@@ -5,6 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zoomable/zoomable.dart';
 
+enum ColorValues {
+  blue('blue', Colors.blue),
+  green('green', Colors.green),
+  red('red', Colors.red),
+  purple('purple', Colors.purple),
+  orange('orange', Colors.orange);
+
+  const ColorValues(this.id, this.color);
+  final String id;
+  final Color color;
+
+  static find(String id) {
+    return values.firstWhere((element) => element.id == id);
+  }
+}
+
 /// Use-case 12
 ///
 /// Test case for dragging and dropping.
@@ -27,16 +43,16 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
     super.initState();
     controller = ZoomableController(
       scaleToPercentage: 0.6,
-      scaleType: ZoomableScaleType.percentage,
+      scaleType: ZoomableScaleType.value,
       allowScaleDown: false,
     );
 
     data = [
-      const ColorData(id: 'blue', color: Colors.blue),
-      const ColorData(id: 'green', color: Colors.green),
-      const ColorData(id: 'red', color: Colors.red),
-      const ColorData(id: 'purple', color: Colors.purple),
-      const ColorData(id: 'orange', color: Colors.orange),
+      const ColorData(value: ColorValues.blue, position: 0),
+      const ColorData(value: ColorValues.green, position: 1),
+      const ColorData(value: ColorValues.red, position: 2),
+      const ColorData(value: ColorValues.orange, position: 3),
+      const ColorData(value: ColorValues.purple, position: 4),
     ];
   }
 
@@ -98,8 +114,8 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
             children: [
               Expanded(
                 child: DraggableItem(
-                  id: data[0].id,
-                  color: data[0].color,
+                  id: data[0].value.id,
+                  color: data[0].value.color,
                   onTap: (id) => controller.zoomTo(id),
                   swap: swap,
                 ),
@@ -107,8 +123,8 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
               const Gap(12),
               Expanded(
                 child: DraggableItem(
-                  id: data[1].id,
-                  color: data[1].color,
+                  id: data[1].value.id,
+                  color: data[1].value.color,
                   onTap: (id) => controller.zoomTo(id),
                   swap: swap,
                 ),
@@ -122,8 +138,8 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
             children: [
               Expanded(
                 child: DraggableItem(
-                  id: data[2].id,
-                  color: data[2].color,
+                  id: data[2].value.id,
+                  color: data[2].value.color,
                   onTap: (id) => controller.zoomTo(id),
                   swap: swap,
                 ),
@@ -131,8 +147,8 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
               const Gap(12),
               Expanded(
                 child: DraggableItem(
-                  id: data[3].id,
-                  color: data[3].color,
+                  id: data[3].value.id,
+                  color: data[3].value.color,
                   onTap: (id) => controller.zoomTo(id),
                   swap: swap,
                 ),
@@ -140,8 +156,8 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
               const Gap(12),
               Expanded(
                 child: DraggableItem(
-                  id: data[4].id,
-                  color: data[4].color,
+                  id: data[4].value.id,
+                  color: data[4].value.color,
                   onTap: (id) => controller.zoomTo(id),
                   swap: swap,
                 ),
@@ -156,15 +172,16 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
   void swap(String to, String from) {
     debugPrint('Swapping $from with $to');
     setState(() {
-      final fromIndex = data.indexWhere((element) => element.id == from);
-      final toIndex = data.indexWhere((element) => element.id == to);
-      final temp = data[fromIndex];
-      data[fromIndex] = data[toIndex];
-      data[toIndex] = temp;
+      final z1 = ColorValues.find(to).id;
+      final z2 = ColorValues.find(from).id;
 
-      // resets the offsets so that the next build they can reset.
-      controller.resetZoomableOffset(to);
-      controller.resetZoomableOffset(from);
+      final z1data = data.indexWhere((c) => c.value.id == z1);
+      final z2data = data.indexWhere((c) => c.value.id == z2);
+      final tempPosZ1 = data[z1data].position;
+      data[z1data] = ColorData(value: ColorValues.find(from), position: data[z2data].position);
+      data[z2data] = ColorData(value: ColorValues.find(to), position: tempPosZ1);
+
+      controller.swapZoomableOffsets(z1, z2);
     });
   }
 }
@@ -222,7 +239,7 @@ class DraggableItem extends StatelessWidget {
           child: ZoomableBox(
             key: ValueKey('child_$key'),
             id: id,
-            child: ColoredBoxChild(
+            builder: (context) => ColoredBoxChild(
               text: id,
               color: color,
               borderColor: Colors.white10,
@@ -236,11 +253,11 @@ class DraggableItem extends StatelessWidget {
 }
 
 class ColorData extends Equatable {
-  const ColorData({required this.id, required this.color});
+  const ColorData({required this.value, required this.position});
 
-  final String id;
-  final Color color;
+  final ColorValues value;
+  final int position;
 
   @override
-  List<Object?> get props => [id, color];
+  List<Object?> get props => [value, position];
 }

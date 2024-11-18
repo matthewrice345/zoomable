@@ -59,7 +59,7 @@ class _UseCaseState extends State<UseCaseOne> {
                   Expanded(
                     child: ZoomableBox(
                       id: 'red',
-                      child: ColoredBoxChild(
+                      builder: (context) => ColoredBoxChild(
                         text: 'Red',
                         color: Colors.red,
                         onTap: () => controller.zoomTo('red'),
@@ -70,7 +70,7 @@ class _UseCaseState extends State<UseCaseOne> {
                   Expanded(
                     child: ZoomableBox(
                       id: 'cyan',
-                      child: ColoredBoxChild(
+                      builder: (context) => ColoredBoxChild(
                         text: 'Cyan',
                         color: Colors.cyan,
                         onTap: () => controller.zoomTo('cyan'),
@@ -81,7 +81,7 @@ class _UseCaseState extends State<UseCaseOne> {
                   Expanded(
                     child: ZoomableBox(
                       id: 'green',
-                      child: ColoredBoxChild(
+                      builder: (context) => ColoredBoxChild(
                         text: 'Green',
                         color: Colors.green,
                         onTap: () => controller.zoomTo('green'),
@@ -95,7 +95,7 @@ class _UseCaseState extends State<UseCaseOne> {
             Expanded(
               child: ZoomableBox(
                 id: 'purple',
-                child: ColoredBoxChild(
+                builder: (context) => ColoredBoxChild(
                   text: 'Purple',
                   color: Colors.purple,
                   onTap: () => controller.zoomTo('purple'),
@@ -109,7 +109,7 @@ class _UseCaseState extends State<UseCaseOne> {
                   Expanded(
                     child: ZoomableBox(
                       id: 'blue',
-                      child: ColoredBoxChild(
+                      builder: (context) => ColoredBoxChild(
                         text: 'Blue',
                         color: Colors.blue,
                         onTap: () => controller.zoomTo('blue'),
@@ -120,7 +120,7 @@ class _UseCaseState extends State<UseCaseOne> {
                   Expanded(
                     child: ZoomableBox(
                       id: 'orange',
-                      child: ColoredBoxChild(
+                      builder: (context) => ColoredBoxChild(
                         text: 'Orange',
                         color: Colors.orange,
                         onTap: () => controller.zoomTo('orange'),

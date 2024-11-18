@@ -12,6 +12,8 @@ class ZoomableWidget extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.clipBehavior = Clip.hardEdge,
     this.onZoomableChanged,
+    this.zoomInDuration,
+    this.zoomOutDuration,
   });
 
   final Widget child;
@@ -19,6 +21,8 @@ class ZoomableWidget extends StatelessWidget {
   final Clip clipBehavior;
   final ZoomableListener? onZoomableChanged;
   final ZoomableController controller;
+  final Duration? zoomInDuration;
+  final Duration? zoomOutDuration;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +34,8 @@ class ZoomableWidget extends StatelessWidget {
         clipBehavior: clipBehavior,
         onZoomableChanged: onZoomableChanged,
         controller: controller,
+        zoomInDuration: zoomInDuration,
+        zoomOutDuration: zoomOutDuration,
         child: child,
       ),
     );

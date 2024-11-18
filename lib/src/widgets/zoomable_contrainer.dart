@@ -13,9 +13,11 @@ class ZoomableContainer extends StatefulWidget {
     this.onZoomableChanged,
     this.minScale = 1,
     this.maxScale = 10,
-    this.zoomInDuration = const Duration(milliseconds: 500),
-    this.zoomOutDuration = const Duration(milliseconds: 500),
-  }) : super(key: zoomableKey);
+    Duration? zoomInDuration,
+    Duration? zoomOutDuration,
+  })  : zoomInDuration = zoomInDuration ?? const Duration(milliseconds: 500),
+        zoomOutDuration = zoomOutDuration ?? const Duration(milliseconds: 500),
+        super(key: zoomableKey);
 
   final Widget child;
   final EdgeInsets padding;
@@ -94,12 +96,12 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     );
   }
 
-  void onZoomTo(ZoomableId id, Offset offset, Size boxSize) {
+  void onZoomTo(ZoomableId id, Offset boxOffset, Size boxSize) {
     if (widget.controller.isAnimating) {
       return;
     }
     final parentSize = ZoomableUtils.getWidgetSize(widget.key as ZoomableKey);
-    _centerBox(boxSize: boxSize, screenSize: parentSize, boxOffset: offset, boxId: id);
+    _centerBox(boxSize: boxSize, screenSize: parentSize, boxOffset: boxOffset, boxId: id);
   }
 
   void onZoomOut() {
@@ -141,20 +143,11 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
 
-    final maxScaleX = screenWidth / boxWidth;
-    final maxScaleY = screenHeight / boxHeight;
-    final maxScale = maxScaleX < maxScaleY ? maxScaleX : maxScaleY;
-
-    late double scale;
-
-    if (widget.controller.scaleType == ZoomableScaleType.percentage) {
-      scale = _scaleToPercentage(widget.controller.scaleToPercentage, screenSize, boxSize);
-      if (widget.controller.allowScaleDown == false && scale < 1.0) {
-        scale = 1.0;
-      }
-    } else {
-      scale = maxScale < widget.controller.scaleTo ? maxScale : widget.controller.scaleTo;
-    }
+    final double scale = ZoomableUtils.calculateActualScale(
+      controller: widget.controller,
+      boxSize: boxSize,
+      screenSize: screenSize,
+    );
 
     final centerScreenOffset = Offset(screenWidth / 2, screenHeight / 2);
     final scaledBoxOffset = Offset(
@@ -190,13 +183,6 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     _zoomInAnimation.addStatusListener(_zoomInAnimationListener);
     _zoomInAnimationController.forward(from: 0);
     widget.controller.currentFocus = boxId;
-  }
-
-  double _scaleToPercentage(double percentage, Size screenSize, Size boxSize) {
-    final smallestSide = screenSize.smallest;
-    final largestBoxSide = boxSize.biggest;
-    final targetBoxSize = smallestSide * percentage;
-    return targetBoxSize / largestBoxSide;
   }
 
   void _centerBox({
