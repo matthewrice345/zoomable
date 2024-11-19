@@ -3,10 +3,14 @@ import 'package:zoomable/src/zoomable_controller.dart';
 
 class ZoomableUtils {
   static Offset calculateChildPosition({required GlobalKey parentKey, required GlobalKey childKey}) {
-    final childRenderBox = childKey.currentContext?.findRenderObject() as RenderBox;
-    final parentRenderBox = parentKey.currentContext?.findRenderObject() as RenderBox;
-    final childOffset = childRenderBox.localToGlobal(Offset.zero);
+    final childRenderBox = childKey.currentContext?.findRenderObject() as RenderBox?;
+    final parentRenderBox = parentKey.currentContext?.findRenderObject() as RenderBox?;
 
+    if(childRenderBox == null || parentRenderBox == null) {
+      return Offset.zero;
+    }
+
+    final childOffset = childRenderBox.localToGlobal(Offset.zero);
     return parentRenderBox.globalToLocal(childOffset);
   }
 
@@ -25,9 +29,6 @@ class ZoomableUtils {
       boxSize: childRenderBox.size,
       screenSize: parentRenderBox.size,
     );
-
-    debugPrint("controller.scaleType: ${controller.scaleType}");
-    debugPrint("Child scale: $childScale");
 
     final adjustedOffset = Offset(childOffset.dx / childScale, childOffset.dy / childScale);
     return parentRenderBox.globalToLocal(adjustedOffset);
@@ -48,7 +49,6 @@ class ZoomableUtils {
     final maxScaleX = screenWidth / boxWidth;
     final maxScaleY = screenHeight / boxHeight;
     final maxScale = maxScaleX < maxScaleY ? maxScaleX : maxScaleY;
-    debugPrint("MaxScale: $maxScale");
     return maxScale;
   }
 

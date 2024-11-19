@@ -44,9 +44,6 @@ class _UseCaseState extends State<UseCaseFour> {
       body: ZoomableWidget(
         padding: const EdgeInsets.all(30),
         clipBehavior: Clip.none,
-        onZoomableChanged: (id, zoomed) {
-          debugPrint('Zoomable $id is zoomed: $zoomed');
-        },
         controller: controller,
         child: Row(
           children: [

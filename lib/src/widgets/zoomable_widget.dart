@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zoomable/src/widgets/zoomable_contrainer.dart';
+import 'package:zoomable/src/widgets/zoomable_animated_container.dart';
 import 'package:zoomable/src/zoomable_controller.dart';
 import 'package:zoomable/src/zoomable_controller_provider.dart';
-import 'package:zoomable/src/zoomable_types.dart';
 
 class ZoomableWidget extends StatelessWidget {
   const ZoomableWidget({
@@ -11,31 +10,25 @@ class ZoomableWidget extends StatelessWidget {
     required this.controller,
     this.padding = EdgeInsets.zero,
     this.clipBehavior = Clip.hardEdge,
-    this.onZoomableChanged,
-    this.zoomInDuration,
-    this.zoomOutDuration,
+    this.zoomDuration,
   });
 
   final Widget child;
   final EdgeInsets padding;
   final Clip clipBehavior;
-  final ZoomableListener? onZoomableChanged;
   final ZoomableController controller;
-  final Duration? zoomInDuration;
-  final Duration? zoomOutDuration;
+  final Duration? zoomDuration;
 
   @override
   Widget build(BuildContext context) {
     return ZoomableControllerProvider(
       controller: controller,
-      child: ZoomableContainer(
+      child: ZoomableAnimatedContainer(
         zoomableKey: controller.zoomableKey,
         padding: padding,
         clipBehavior: clipBehavior,
-        onZoomableChanged: onZoomableChanged,
         controller: controller,
-        zoomInDuration: zoomInDuration,
-        zoomOutDuration: zoomOutDuration,
+        zoomDuration: zoomDuration,
         child: child,
       ),
     );

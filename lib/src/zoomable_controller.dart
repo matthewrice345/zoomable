@@ -19,14 +19,16 @@ class ZoomableController extends ChangeNotifier {
   })  : _scaleTo = scaleTo,
         _scaleToPercentage = scaleToPercentage,
         _scaleType = scaleType,
-        _allowScaleDown = allowScaleDown;
+        _allowScaleDown = allowScaleDown,
+        _matrixController = TransformationController()
+          ..value = Matrix4.identity();
 
-  ValueNotifier<bool> get isZoomed => _isZoomedNotifier;
-  final ValueNotifier<bool> _isZoomedNotifier = ValueNotifier(false);
+  TransformationController get matrixController => _matrixController;
+  late final TransformationController _matrixController;
 
-  void setIsZoomed(bool value) {
-    _isZoomedNotifier.value = value;
-  }
+  bool get isZoomed => !isNotZoomed;
+
+  bool get isNotZoomed => matrixController.value.isIdentity();
 
   bool get allowScaleDown => _allowScaleDown;
   late final bool _allowScaleDown;
@@ -53,18 +55,18 @@ class ZoomableController extends ChangeNotifier {
   ZoomableId? get currentFocus => _currentFocus;
   ZoomableId? _currentFocus;
 
-  set currentFocus(ZoomableId? id) {
-    if (_currentFocus == id) return;
-    _currentFocus = id;
-    notifyListeners();
+  void clearCurrentFocus() {
+    // only clear if zoomed out
+    if (isNotZoomed) {
+      debugPrint("Clearing current focus");
+      _currentFocus = null;
+      notifyListeners();
+    }
   }
 
-  bool get isAnimating => _isAnimating;
-  bool _isAnimating = false;
-
-  set isAnimating(bool value) {
-    if (_isAnimating == value) return;
-    _isAnimating = value;
+  void setCurrentFocus(ZoomableId? id) {
+    if (_currentFocus == id) return;
+    _currentFocus = id;
     notifyListeners();
   }
 
@@ -82,7 +84,7 @@ class ZoomableController extends ChangeNotifier {
   }
 
   void updateZoomableOffset(ZoomableId id, Offset offset) {
-    if(_zoomableOffsets.containsKey(id)) {
+    if (_zoomableOffsets.containsKey(id)) {
       _zoomableOffsets[id] = offset;
     }
   }
@@ -94,29 +96,23 @@ class ZoomableController extends ChangeNotifier {
   final Map<ZoomableId, Offset> _zoomableOffsets = {};
 
   void swapZoomableOffsets(ZoomableId z1, ZoomableId z2) {
-    final temp1 = _zoomableOffsets[z1];
-    final temp2 = _zoomableOffsets[z2];
-    if(temp2 != null) {
-      _zoomableOffsets[z1] = temp2;
+    final tempZ1 = _zoomableOffsets[z1];
+    final tempZ2 = _zoomableOffsets[z2];
+    if (tempZ2 != null) {
+      _zoomableOffsets[z1] = tempZ2;
     }
-    if(temp1 != null) {
-      _zoomableOffsets[z2] = temp1;
+    if (tempZ1 != null) {
+      _zoomableOffsets[z2] = tempZ1;
     }
 
-    if(_currentFocus == z1) {
-      _currentFocus = z2;
-    } else if(_currentFocus == z2) {
-      _currentFocus = z1;
-    }
+    notifyListeners();
   }
 
   void zoomTo(ZoomableId id) {
     final zoomable = zoomables[id];
     if (zoomable != null) {
-      print("are we zoomed in? ${isZoomed.value}");
-      print("current focus is $_currentFocus");
-
-      if (currentFocus == null) {
+      if (matrixController.value.isIdentity()) {
+        debugPrint('Identity matrix, getting all offsets');
         // Gets the current size for all Zoomables and stores them
         zoomables.forEach((id, zoomable) {
           _zoomableOffsets[id] = ZoomableUtils.calculateChildPosition(

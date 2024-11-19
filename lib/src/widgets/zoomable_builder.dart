@@ -4,7 +4,7 @@ import 'package:zoomable/src/zoomable_controller.dart';
 class ZoomableBuilder extends StatefulWidget {
   const ZoomableBuilder({super.key, required this.builder, required this.controller});
   final ZoomableController controller;
-  final WidgetBuilder builder;
+  final Widget Function(BuildContext context, bool isZoomed) builder;
 
   @override
   State<ZoomableBuilder> createState() => _ZoomableBuilderState();
@@ -32,6 +32,6 @@ class _ZoomableBuilderState extends State<ZoomableBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context);
+    return widget.builder(context, widget.controller.isZoomed);
   }
 }

@@ -72,9 +72,6 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
       body: ZoomableWidget(
         padding: const EdgeInsets.all(30),
         clipBehavior: Clip.none,
-        onZoomableChanged: (id, zoomed) {
-          debugPrint('Zoomable $id is zoomed: $zoomed');
-        },
         controller: controller,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -159,7 +156,6 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
                   id: data[4].value.id,
                   color: data[4].value.color,
                   onTap: (id) {
-                    debugPrint('Is zoomed: ${controller.isZoomed.value}');
                     controller.zoomTo(id);
                   },
                   swap: swap,

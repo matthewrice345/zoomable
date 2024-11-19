@@ -49,9 +49,6 @@ class _UseCaseState extends State<UseCaseFive> {
       body: ZoomableWidget(
         padding: const EdgeInsets.all(30),
         clipBehavior: Clip.none,
-        onZoomableChanged: (id, zoomed) {
-          debugPrint('Zoomable $id is zoomed: $zoomed');
-        },
         controller: controller,
         child: Stack(
           children: [
@@ -109,9 +106,9 @@ class _UseCaseState extends State<UseCaseFive> {
             ),
             IgnorePointer(
               ignoring: true,
-              child: ValueListenableBuilder(
-                valueListenable: controller.isZoomed,
-                builder: (context, isZoomed, _) {
+              child: ZoomableBuilder(
+                controller: controller,
+                builder: (context, isZoomed) {
                   return Center(
                     child: AnimatedOpacity(
                       duration: const Duration(milliseconds: 280),
