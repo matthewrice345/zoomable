@@ -108,11 +108,11 @@ class _UseCaseState extends State<UseCaseFive> {
               ignoring: true,
               child: ZoomableBuilder(
                 controller: controller,
-                builder: (context, isZoomed) {
+                builder: (context, zoomStatus) {
                   return Center(
                     child: AnimatedOpacity(
                       duration: const Duration(milliseconds: 280),
-                      opacity: isZoomed ? 0.0 : 1.0,
+                      opacity: zoomStatus.isZoomedIn ? 0.0 : 1.0,
                       child: const Text(
                         'Zoomable Example!',
                         style: TextStyle(fontSize: 44, fontWeight: FontWeight.w900, color: Colors.black),

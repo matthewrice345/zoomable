@@ -104,7 +104,7 @@ class ZoomableAnimatedContainerState extends State<ZoomableAnimatedContainer> wi
   void onZoomOut() => _onZoomOut();
 
   void _onZoomOut() {
-    if (widget.controller.isZoomed) {
+    if (widget.controller.status.isZoomedIn) {
       final beginMatrix = widget.controller.matrixController.value.clone();
       final endMatrix = Matrix4.identity();
 
@@ -112,8 +112,10 @@ class ZoomableAnimatedContainerState extends State<ZoomableAnimatedContainer> wi
         CurvedAnimation(parent: _zoomAnimationController, curve: Curves.easeInOut),
       );
 
+      widget.controller.status = ZoomStatus.zoomedOutStarted;
       _zoomAnimationController.forward(from: 0).then((_) {
         debugPrint('ZOOM OUT: AnimationStatus.completed');
+        widget.controller.status = ZoomStatus.zoomedOut;
         widget.controller.matrixController.value = Matrix4.identity();
         widget.controller.clearCurrentFocus();
       });
@@ -156,8 +158,10 @@ class ZoomableAnimatedContainerState extends State<ZoomableAnimatedContainer> wi
     );
 
     widget.controller.setCurrentFocus(boxId);
+    widget.controller.status = ZoomStatus.zoomedInStarted;
     _zoomAnimationController.forward(from: 0).then((_) {
       debugPrint('ZOOM IN: AnimationStatus.completed');
+      widget.controller.status = ZoomStatus.zoomedIn;
     });
   }
 }

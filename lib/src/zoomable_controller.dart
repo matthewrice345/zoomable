@@ -9,6 +9,16 @@ enum ZoomableScaleType {
   percentage;
 }
 
+enum ZoomStatus {
+  zoomedIn,
+  zoomedInStarted,
+  zoomedOut,
+  zoomedOutStarted;
+
+  bool get isZoomedIn => this == zoomedIn || this == zoomedInStarted;
+  bool get isZoomedOut => this == zoomedOut || this == zoomedOutStarted;
+}
+
 /// ZoomableController
 class ZoomableController extends ChangeNotifier {
   ZoomableController({
@@ -20,15 +30,20 @@ class ZoomableController extends ChangeNotifier {
         _scaleToPercentage = scaleToPercentage,
         _scaleType = scaleType,
         _allowScaleDown = allowScaleDown,
-        _matrixController = TransformationController()
-          ..value = Matrix4.identity();
+        _matrixController = TransformationController()..value = Matrix4.identity();
 
   TransformationController get matrixController => _matrixController;
   late final TransformationController _matrixController;
 
-  bool get isZoomed => !isNotZoomed;
+  ZoomStatus get status => _status;
+  ZoomStatus _status = ZoomStatus.zoomedOut;
+  set status(ZoomStatus value) {
+    _status = value;
+    notifyListeners();
+  }
 
-  bool get isNotZoomed => matrixController.value.isIdentity();
+  // bool get isZoomed => !isNotZoomed;
+  // bool get isNotZoomed => matrixController.value.isIdentity();
 
   bool get allowScaleDown => _allowScaleDown;
   late final bool _allowScaleDown;
@@ -57,7 +72,7 @@ class ZoomableController extends ChangeNotifier {
 
   void clearCurrentFocus() {
     // only clear if zoomed out
-    if (isNotZoomed) {
+    if (status.isZoomedOut) {
       debugPrint("Clearing current focus");
       _currentFocus = null;
       notifyListeners();
