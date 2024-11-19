@@ -110,7 +110,7 @@ class _UseCaseState extends State<UseCaseFive> {
             IgnorePointer(
               ignoring: true,
               child: ValueListenableBuilder(
-                valueListenable: controller.isZoomedNotifier,
+                valueListenable: controller.isZoomed,
                 builder: (context, isZoomed, _) {
                   return Center(
                     child: AnimatedOpacity(

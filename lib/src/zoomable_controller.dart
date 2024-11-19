@@ -21,7 +21,7 @@ class ZoomableController extends ChangeNotifier {
         _scaleType = scaleType,
         _allowScaleDown = allowScaleDown;
 
-  ValueNotifier<bool> get isZoomedNotifier => _isZoomedNotifier;
+  ValueNotifier<bool> get isZoomed => _isZoomedNotifier;
   final ValueNotifier<bool> _isZoomedNotifier = ValueNotifier(false);
 
   void setIsZoomed(bool value) {
@@ -113,7 +113,10 @@ class ZoomableController extends ChangeNotifier {
   void zoomTo(ZoomableId id) {
     final zoomable = zoomables[id];
     if (zoomable != null) {
-      if (isZoomedNotifier.value == false) {
+      print("are we zoomed in? ${isZoomed.value}");
+      print("current focus is $_currentFocus");
+
+      if (currentFocus == null) {
         // Gets the current size for all Zoomables and stores them
         zoomables.forEach((id, zoomable) {
           _zoomableOffsets[id] = ZoomableUtils.calculateChildPosition(

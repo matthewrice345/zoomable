@@ -3,6 +3,8 @@ import 'package:zoomable/src/zoomable_controller.dart';
 import 'package:zoomable/src/zoomable_types.dart';
 import 'package:zoomable/src/zoomable_utils.dart';
 
+//TODO: change this to use a single animation controller
+
 class ZoomableContainer extends StatefulWidget {
   const ZoomableContainer({
     required ZoomableKey zoomableKey,
@@ -108,12 +110,13 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
     final beginMatrix = _controller.value.clone();
     final endMatrix = Matrix4.identity();
 
-    if (widget.controller.isZoomedNotifier.value) {
+    if (widget.controller.isZoomed.value) {
       _zoomOutAnimation = Matrix4Tween(begin: beginMatrix, end: endMatrix).animate(
         CurvedAnimation(parent: _zoomOutAnimationController, curve: Curves.easeInOut),
       );
       _zoomOutAnimation.addListener(() => _controller.value = _zoomOutAnimation.value);
       _zoomOutAnimationListener = (status) {
+        debugPrint("ZOOM - out: $status");
         // AnimationStatus.dismissed
         // AnimationStatus.forward
         // AnimationStatus.completed
@@ -169,6 +172,8 @@ class ZoomableContainerState extends State<ZoomableContainer> with TickerProvide
 
     _zoomInAnimation.addListener(() => _controller.value = _zoomInAnimation.value);
     _zoomInAnimationListener = (status) {
+      debugPrint("ZOOM -  in: $status");
+
       // AnimationStatus.dismissed
       // AnimationStatus.forward
       // AnimationStatus.completed

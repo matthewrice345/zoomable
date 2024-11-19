@@ -93,7 +93,7 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
                         controller.zoomOut();
                         setState(() {});
                       },
-                      child: const Text('SetState'),
+                      child: const Text('Zoom out & SetState'),
                     ),
                   ),
                 ],
@@ -158,7 +158,10 @@ class _UseCaseTwelve extends State<UseCaseTwelve> {
                 child: DraggableItem(
                   id: data[4].value.id,
                   color: data[4].value.color,
-                  onTap: (id) => controller.zoomTo(id),
+                  onTap: (id) {
+                    debugPrint('Is zoomed: ${controller.isZoomed.value}');
+                    controller.zoomTo(id);
+                  },
                   swap: swap,
                 ),
               ),
@@ -243,7 +246,10 @@ class DraggableItem extends StatelessWidget {
               text: id,
               color: color,
               borderColor: Colors.white10,
-              onTap: () => onTap(id),
+              onTap: () {
+                debugPrint('Tapping $id');
+                onTap(id);
+              },
             ),
           ),
         );
