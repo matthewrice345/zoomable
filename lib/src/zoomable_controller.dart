@@ -35,10 +35,14 @@ class ZoomableController extends ChangeNotifier {
   TransformationController get matrixController => _matrixController;
   late final TransformationController _matrixController;
 
+  ValueNotifier<ZoomStatus> get zoomStatusNotifier => _zoomStatusNotifier;
+  final ValueNotifier<ZoomStatus> _zoomStatusNotifier = ValueNotifier(ZoomStatus.zoomedOut);
+
   ZoomStatus get status => _status;
   ZoomStatus _status = ZoomStatus.zoomedOut;
   set status(ZoomStatus value) {
     _status = value;
+    _zoomStatusNotifier.value = value;
     notifyListeners();
   }
 
