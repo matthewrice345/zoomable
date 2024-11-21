@@ -106,7 +106,7 @@ class _UseCaseState extends State<UseCaseFive> {
             ),
             IgnorePointer(
               ignoring: true,
-              child: ZoomableBuilder(
+              child: ZoomableStatusBuilder(
                 controller: controller,
                 builder: (context, zoomStatus) {
                   return Center(
