@@ -12,6 +12,7 @@ class ZoomableAnimatedContainer extends StatefulWidget {
     this.clipBehavior = Clip.hardEdge,
     this.minScale = 1,
     this.maxScale = 10,
+    this.onZoomToStart,
     Duration? zoomDuration,
   })  : zoomDuration = zoomDuration ?? const Duration(milliseconds: 500),
         super(key: zoomableKey);
@@ -23,6 +24,7 @@ class ZoomableAnimatedContainer extends StatefulWidget {
   final double minScale;
   final double maxScale;
   final Duration zoomDuration;
+  final void Function(ZoomableId)? onZoomToStart;
 
   @override
   State<ZoomableAnimatedContainer> createState() => ZoomableAnimatedContainerState();
@@ -84,7 +86,6 @@ class ZoomableAnimatedContainerState extends State<ZoomableAnimatedContainer> wi
 
   void onZoomTo(ZoomableId id, Offset boxOffset, Size boxSize) {
     debugPrint('onZoomTo: ZoomableId: $id');
-
     final parentSize = ZoomableUtils.getWidgetSize(widget.key as ZoomableKey);
 
     setState(() {
@@ -99,6 +100,8 @@ class ZoomableAnimatedContainerState extends State<ZoomableAnimatedContainer> wi
         _onZoomIn(boxSize, parentSize, boxOffset, id);
       }
     });
+
+    widget.onZoomToStart?.call(id);
   }
 
   void onZoomOut() => _onZoomOut();
