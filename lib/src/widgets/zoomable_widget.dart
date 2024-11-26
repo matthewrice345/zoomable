@@ -61,6 +61,7 @@ class ZoomableInteractiveWidget extends StatelessWidget {
     this.clipBehavior = Clip.hardEdge,
     this.zoomDuration,
     this.interactive,
+    this.enabled = true,
   });
 
   final Widget child;
@@ -69,6 +70,7 @@ class ZoomableInteractiveWidget extends StatelessWidget {
   final ZoomableController controller;
   final Duration? zoomDuration;
   final Interactive? interactive;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +83,8 @@ class ZoomableInteractiveWidget extends StatelessWidget {
         controller: controller,
         zoomDuration: zoomDuration,
         child: InteractiveViewer(
-          panEnabled: interactive?.panEnabled ?? true,
-          scaleEnabled: interactive?.scaleEnabled ?? true,
+          panEnabled: enabled ? (interactive?.panEnabled ?? true) : false,
+          scaleEnabled: enabled ? (interactive?.scaleEnabled ?? true) : false,
           minScale: interactive?.minScale ?? 1,
           maxScale: interactive?.maxScale ?? 2.5,
           clipBehavior: interactive?.clipBehavior ?? Clip.hardEdge,
